@@ -2,7 +2,7 @@ package com.qa.ims.persistence.domain;
 
 public class OrderItems {
 
-	private Long orderItemsId;
+	private Double cost;
 	private Long fkOrderId;
 	private Long fkItemId;
 	private Long quantity;
@@ -13,19 +13,19 @@ public class OrderItems {
 		this.quantity = quantity;
 	}
 
-	public OrderItems(Long orderItemsId, Long fkOrderId, Long fkItemId, Long quantity) {
-		this.orderItemsId = orderItemsId;
+	public OrderItems(Long fkOrderId, Long fkItemId, Long quantity, Double cost) {
 		this.fkOrderId = fkOrderId;
 		this.fkItemId = fkItemId;
 		this.quantity = quantity;
+		this.cost = cost;
 	}
 
-	public Long getOrderItemsId() {
-		return orderItemsId;
+	public Double getCost() {
+		return cost;
 	}
 
-	public void setOrderItemsId(Long orderItemsId) {
-		this.orderItemsId = orderItemsId;
+	public void setcost(Double cost) {
+		this.cost = cost;
 	}
 
 	public Long getFkOrderId() {
@@ -54,8 +54,7 @@ public class OrderItems {
 
 	@Override
 	public String toString() {
-		return "orderItemsId=" + orderItemsId + ", fkOrderId=" + fkOrderId + ", fkItemId=" + fkItemId + ", quantity="
-				+ quantity;
+		return "cost=" + cost + ", fkOrderId=" + fkOrderId + ", fkItemId=" + fkItemId + ", quantity=" + quantity;
 	}
 
 	@Override
@@ -67,10 +66,10 @@ public class OrderItems {
 		if (getClass() != obj.getClass())
 			return false;
 		OrderItems other = (OrderItems) obj;
-		if (orderItemsId == null) {
-			if (other.orderItemsId != null)
+		if (cost == null) {
+			if (other.cost != null)
 				return false;
-		} else if (!orderItemsId.equals(other.orderItemsId))
+		} else if (!cost.equals(other.cost))
 			return false;
 		if (fkOrderId == null) {
 			if (other.fkOrderId != null)
