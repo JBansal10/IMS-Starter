@@ -19,11 +19,17 @@ public class ItemsDAO implements Dao<Items> {
 
 	@Override
 	public Items modelFromResultSet(ResultSet resultSet) throws SQLException {
-		Long id = resultSet.getLong("item_id");
+		Long item_id = resultSet.getLong("item_id");
 		String itemName = resultSet.getString("item_name");
 		Long stock = resultSet.getLong("stock");
 		Double price = resultSet.getDouble("price");
-		return new Items(id, itemName, stock, price);
+		return new Items(item_id, itemName, stock, price);
+	}
+	
+	public void itemIterator(Long item_id) {
+		Items item = readItems(item_id);
+		item.setStock(item.getStock() - 1);
+		update (item);
 	}
 
 	@Override
@@ -71,10 +77,10 @@ public class ItemsDAO implements Dao<Items> {
 		return null;
 	}
 
-	public Items readItems(Long id) {
+	public Items readItems(Long item_id) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM item WHERE item_id = " + id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM item WHERE item_id = " + item_id);) {
 			resultSet.next();
 			return modelFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -89,8 +95,8 @@ public class ItemsDAO implements Dao<Items> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
 			statement.execute("UPDATE item SET item_name = '" + items.getItemName() + "', stock = '" + items.getStock()
-					+ "', price = '" + items.getPrice() + "' WHERE item_id = " + items.getId());
-			return readItems(items.getId());
+					+ "', price = '" + items.getPrice() + "' WHERE item_id = " + items.getitemId());
+			return readItems(items.getitemId());
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());

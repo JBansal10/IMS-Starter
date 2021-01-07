@@ -2,22 +2,33 @@ package com.qa.ims.persistence.domain;
 
 public class OrderItems {
 
-	private Double cost;
+	private Long orderitemsId;
 	private Long fkOrderId;
 	private Long fkItemId;
 	private Long quantity;
-
-	public OrderItems(Long fkOrderId, Long fkItemId, Long quantity) {
-		this.fkOrderId = fkOrderId;
-		this.fkItemId = fkItemId;
-		this.quantity = quantity;
-	}
+	private Double cost;
 
 	public OrderItems(Long fkOrderId, Long fkItemId, Long quantity, Double cost) {
 		this.fkOrderId = fkOrderId;
 		this.fkItemId = fkItemId;
 		this.quantity = quantity;
 		this.cost = cost;
+	}
+
+	public OrderItems(Long orderitemsId, Long fkOrderId, Long fkItemId, Long quantity, Double cost) {
+		this.orderitemsId = orderitemsId;
+		this.fkOrderId = fkOrderId;
+		this.fkItemId = fkItemId;
+		this.quantity = quantity;
+		this.cost = cost;
+	}
+
+	public Long getOrderitemsId() {
+		return orderitemsId;
+	}
+
+	public void setOrderitemsId(Long orderitemsId) {
+		this.orderitemsId = orderitemsId;
 	}
 
 	public Double getCost() {
@@ -54,7 +65,7 @@ public class OrderItems {
 
 	@Override
 	public String toString() {
-		return "cost=" + cost + ", fkOrderId=" + fkOrderId + ", fkItemId=" + fkItemId + ", quantity=" + quantity;
+		return "orderitemsId =" + orderitemsId + ", cost=" + cost + ", fkOrderId=" + fkOrderId + ", fkItemId=" + fkItemId + ", quantity=" + quantity;
 	}
 
 	@Override
@@ -66,6 +77,11 @@ public class OrderItems {
 		if (getClass() != obj.getClass())
 			return false;
 		OrderItems other = (OrderItems) obj;
+		if (orderitemsId == null) {
+			if(other.orderitemsId != null)
+			return false;
+		} else if (!orderitemsId.equals(other.orderitemsId))
+			return false;
 		if (cost == null) {
 			if (other.cost != null)
 				return false;
@@ -86,7 +102,6 @@ public class OrderItems {
 				return false;
 		} else if (!quantity.equals(other.quantity))
 			return false;
-
 		return true;
 	}
 

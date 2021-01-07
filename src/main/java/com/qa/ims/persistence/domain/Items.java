@@ -1,7 +1,7 @@
 package com.qa.ims.persistence.domain;
 
 public class Items {
-	private Long id;
+	private Long item_id;
 	private String itemName;
 	private Long stock;
 	private Double price;
@@ -12,20 +12,20 @@ public class Items {
 		this.price = price;
 	}
 
-	public Items(Long id, String itemName, Long stock, Double price) {
-		this.id = id;
+	public Items(Long item_id, String itemName, Long stock, Double price) {
+		this.item_id = item_id;
 		this.itemName = itemName;
 		this.stock = stock;
 		this.price = price;
 
 	}
 
-	public Long getId() {
-		return id;
+	public Long getitemId() {
+		return item_id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(Long item_id) {
+		this.item_id = item_id;
 	}
 
 	public String getItemName() {
@@ -54,36 +54,36 @@ public class Items {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", itemName=" + itemName + ", stock=" + stock + ", price=" + price;
+		return "item_id =" + item_id + ", itemName=" + itemName + ", stock =" + stock + ", price =" + price;
 	}
-	
+
 	public boolean equals(Object obj) {
-		if(this == obj)
+		if (this == obj)
 			return true;
-		if(obj == null)
+		if (obj == null)
 			return false;
-		if(getClass() != obj.getClass())
+		if (getClass() != obj.getClass())
 			return false;
 		Items other = (Items) obj;
-		if(itemName == null) {
-			if(other.itemName != null)
+		if (itemName == null) {
+			if (other.itemName != null)
 				return false;
-		} else if(!itemName.equals(other.itemName))
+		} else if (!itemName.equals(other.itemName))
 			return false;
-		if (id == null) {
-			if(other.id != null)
+		if (item_id == null) {
+			if (other.item_id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!item_id.equals(other.item_id))
 			return false;
-		if(stock == null) {
+		if (stock == null) {
 			if (other.stock != null)
 				return false;
-		} else if(!stock.equals(other.stock))
+		} else if (!stock.equals(other.stock))
 			return false;
-		if(price == null) {
+		if (price == null) {
 			if (other.price != null)
 				return false;
-		} else if(!price.equals(other.price))
+		} else if (!price.equals(other.price))
 			return false;
 		return true;
 	}

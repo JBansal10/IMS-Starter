@@ -11,20 +11,27 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.qa.ims.persistence.domain.Items;
 import com.qa.ims.persistence.domain.Orders;
 import com.qa.ims.utils.DBUtils;
 
 public class OrderDAO implements Dao<Orders> {
 
 	public static final Logger LOGGER = LogManager.getLogger();
+	
+	ItemsDAO itemDAO = new ItemsDAO();
 
 	@Override
 	public Orders modelFromResultSet(ResultSet resultSet) throws SQLException {
 		Long order_id = resultSet.getLong("order_id");
 		Long fkCustomerId = resultSet.getLong("fk_customer_id");
 		Date datePlaced = resultSet.getDate("date_placed");
-		Double totPrice = resultSet.getDouble("total_price");
-		return new Orders(order_id, fkCustomerId, datePlaced, totPrice);
+		List<Items> items = readLines(resultSet.getLong("order_id"));
+		for (Items item : items) {
+			item.setStock(1L);
+		}
+		
+		return new Orders(order_id, fkCustomerId, datePlaced, items);
 	}
 
 	@Override
@@ -61,14 +68,27 @@ public class OrderDAO implements Dao<Orders> {
 	public Orders create(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO orders (fk_customer_id, date_placed, total_price) VALUES ('" + orders.getFkCustomerId()
-			+ "' , '" + orders.getDatePlaced() +"' , '" + orders.getTotPrice() + "')");
+			statement.executeUpdate("INSERT INTO orders (fk_customer_id, date_placed) VALUES ('" + orders.getFkCustomerId()
+			+ "' , '" + orders.getDatePlaced() + "')");
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
 		}
 		return null;
+	}
+	
+	public void createLine(Long order_id, Long item_id) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("INSERT INTO orderitems (fk_order_id, fk_item_id) VALUES ("
+					+ order_id + ", " + item_id + ")");
+			LOGGER.info("Item added to order " + order_id);
+			itemDAO.itemIterator(item_id);
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
 	}
 	
 	public Orders readOrders(Long order_id) {
@@ -83,13 +103,29 @@ public class OrderDAO implements Dao<Orders> {
 		}
 		return null;
 	}
+	
+	public List<Items> readLines (Long order_id){
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orderitems WHERE fk_order_id = " + order_id);){
+			List<Items> items = new ArrayList<Items>();
+			while (resultSet.next()) {
+				items.add(itemDAO.readItems(resultSet.getLong("fk_item_id")));
+			}
+			return items;
+		} catch (Exception e){
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
 
 	@Override
 	public Orders update(Orders orders) {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement(); ){
 			statement.executeUpdate("UPDATE orders SET fk_customer_id = '" + orders.getFkCustomerId() + "', date_placed = '"
-					+ orders.getDatePlaced() + "', total_price = '" + orders.getTotPrice() + "' WHERE order_id =" + orders.getOrder_id());
+					+ orders.getDatePlaced() + "' WHERE order_id =" + orders.getOrder_id());
 			return readOrders(orders.getOrder_id());
 		} catch (Exception e) {
 			LOGGER.debug(e);
@@ -103,6 +139,17 @@ public class OrderDAO implements Dao<Orders> {
 		try (Connection connection = DBUtils.getInstance().getConnection();
 				Statement statement = connection.createStatement(); ) {
 			return statement.executeUpdate("DELETE FROM orders WHERE order_id = " + order_id);
+		} catch (Exception e) {
+			LOGGER.debug(e);
+			LOGGER.error(e.getMessage());
+		}
+		return 0;
+	}
+	
+	public int deleteLine(Long order_id, Long item_id) {
+		try (Connection connection = DBUtils.getInstance().getConnection();
+				Statement statement = connection.createStatement();) {
+			return statement.executeUpdate("DELETE FROM orderitems WHERE fk_order_id = " + order_id);
 		} catch (Exception e) {
 			LOGGER.debug(e);
 			LOGGER.error(e.getMessage());
