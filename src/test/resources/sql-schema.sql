@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `ims`.`orders` (
 	`fk_customer_id` INT (11) NULL DEFAULT NULL,
 	`date_placed` DATE NULL DEFAULT NULL,
 	PRIMARY KEY(`order_id`),
-	CONSTRAINT `fk_customer_id` FOREIGN KEY(`fk_customer_id`) REFERENCES `customers`(`id`)ON DELETE CASCADE
+	CONSTRAINT `fk_customer_id` FOREIGN KEY(`fk_customer_id`) REFERENCES `customers`(`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `ims`.`orderitems` (
@@ -30,5 +30,5 @@ CREATE TABLE IF NOT EXISTS `ims`.`orderitems` (
 	`fk_item_id` INT (11) NOT NULL,
 	PRIMARY KEY (`orderitems_id`),
 	CONSTRAINT `fk_order_id` FOREIGN KEY(`fk_order_id`) REFERENCES `orders`(`order_id`) ON DELETE CASCADE,
-	CONSTRAINT `fk_item_id` FOREIGN KEY (`fk_item_id`) REFERENCES `item`(`item_id`) ON DELETE CASCADE
+	CONSTRAINT `fk_item_id` FOREIGN KEY(`fk_item_id`) REFERENCES `item`(`item_id`) ON DELETE CASCADE
 );

@@ -89,7 +89,7 @@ public class Orders {
 		if (datePlaced == null) {
 			if (other.datePlaced != null)
 				return false;
-		} else if (!datePlaced.equals(other.datePlaced))
+		} else if (!datePlaced.toString().equals(other.datePlaced.toString()))
 			return false;
 		if (order_id == null) {
 			if (other.order_id != null)

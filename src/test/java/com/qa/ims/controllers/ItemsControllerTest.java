@@ -9,8 +9,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
 
 import com.qa.ims.controller.ItemsController;
 import com.qa.ims.persistence.dao.ItemsDAO;
@@ -37,18 +40,18 @@ public class ItemsControllerTest {
 		final Double PRICE = 15.99D;
 		final Items created = new Items(ID, I_NAME, STOCK, PRICE);
 		
-		Mockito.when(utils.getLong()).thenReturn(ID, STOCK);
-		Mockito.when(utils.getString()).thenReturn(I_NAME);
-		Mockito.when(utils.getDouble()).thenReturn(PRICE);
+		when(utils.getLong()).thenReturn(ID, STOCK);
+		when(utils.getString()).thenReturn(I_NAME);
+		when(utils.getDouble()).thenReturn(PRICE);
 		
-		Mockito.when(itemsDAO.create(Mockito.any(Items.class))).thenReturn(created);
+		when(itemsDAO.create(any(Items.class))).thenReturn(created);
 		
 		assertEquals(created, controller.create());
 		
-		Mockito.verify(utils, Mockito.times(1)).getString();
-		Mockito.verify(utils, Mockito.times(1)).getLong();
-		Mockito.verify(utils, Mockito.times(1)).getDouble();
-		Mockito.verify(itemsDAO, Mockito.times(1)).create(Mockito.any(Items.class));
+		verify(utils, times(1)).getString();
+		verify(utils, times(1)).getLong();
+		verify(utils, times(1)).getDouble();
+		verify(itemsDAO, times(1)).create(any(Items.class));
 		
 	}
 	
@@ -57,42 +60,42 @@ public class ItemsControllerTest {
 		List<Items> items = new ArrayList<>();
 		items.add(new Items(1L, "Stardew Valley", 356L, 8.99D));
 		
-		Mockito.when(itemsDAO.readAll()).thenReturn(items);
+		when(itemsDAO.readAll()).thenReturn(items);
 		
 		assertEquals(items, controller.readAll());
 		
-		Mockito.verify(itemsDAO, Mockito.times(1)).readAll();
+		verify(itemsDAO, times(1)).readAll();
 	}
 	
 	@Test
 	public void testUpdate() {
 		Items updated = new Items(1L, "Star Citizen", 353L, 43.99D);
 		
-		Mockito.when(this.utils.getLong()).thenReturn(1L, 353L);
-		Mockito.when(this.utils.getString()).thenReturn(updated.getItemName());
-		Mockito.when(this.utils.getLong()).thenReturn(353L);
-		Mockito.when(this.utils.getDouble()).thenReturn(43.99D);
+		when(this.utils.getLong()).thenReturn(1L, 353L);
+		when(this.utils.getString()).thenReturn(updated.getItemName());
+		when(this.utils.getLong()).thenReturn(353L);
+		when(this.utils.getDouble()).thenReturn(43.99D);
 		
-		Mockito.when(itemsDAO.update(Mockito.any(Items.class))).thenReturn(updated);
+		when(itemsDAO.update(any(Items.class))).thenReturn(updated);
 
 		
 		assertEquals(updated, this.controller.update());
 		
-		Mockito.verify(this.utils, Mockito.times(2)).getLong();
-		Mockito.verify(this.utils, Mockito.times(1)).getDouble();
-		Mockito.verify(this.utils, Mockito.times(1)).getString();
+		verify(this.utils, times(2)).getLong();
+		verify(this.utils, times(1)).getDouble();
+		verify(this.utils, times(1)).getString();
 	}
 	
 	@Test
 	public void testDelete() {
 		final long item_id = 1L;
-		Mockito.when(utils.getLong()).thenReturn(item_id);
-		Mockito.when(itemsDAO.delete(item_id)).thenReturn(1);
+		when(utils.getLong()).thenReturn(item_id);
+		when(itemsDAO.delete(item_id)).thenReturn(1);
 		
 		assertEquals(1L, this.controller.delete());
 		
-		Mockito.verify(utils, Mockito.times(1)).getLong();
-		Mockito.verify(itemsDAO, Mockito.times(1)).delete(item_id);
+		verify(utils, times(1)).getLong();
+		verify(itemsDAO, times(1)).delete(item_id);
 		
 	}
 
