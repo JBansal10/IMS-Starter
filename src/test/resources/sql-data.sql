@@ -1,9 +1,10 @@
 INSERT INTO `ims`.`customers` (`first_name`, `surname`) VALUES ('jordan', 'harrison');
+INSERT INTO `ims`.`customers` (`first_name`, `surname`) VALUES ('harold', 'potato');
 INSERT INTO `ims`.`item` (`item_name`,`stock`, `price` ) VALUES ('Valhalla', 476, 19.62);
 INSERT INTO `ims`.`item` (`item_name`,`stock`, `price` ) VALUES ('Legion', 356, 8.99);
 INSERT INTO `ims`.`item` (`item_name`,`stock`, `price` ) VALUES ('Piers Humour', 678, 0.01);
-INSERT INTO `ims`.`orders` (`fk_customer_id`, `date_placed`) VALUES (1, '2021-01-07');
-INSERT INTO `ims`.`orders` (`fk_customer_id`, `date_placed`) VALUES (1, '2021-01-07');
+INSERT INTO `ims`.`orders` (`fk_customer_id`, `date_placed`) VALUES (1, '2021-01-08');
+INSERT INTO `ims`.`orders` (`fk_customer_id`, `date_placed`) VALUES (1, '2021-01-08');
 INSERT INTO `ims`.`orderitems`(`fk_order_id`, `fk_item_id`) VALUES (1, 2);
 INSERT INTO `ims`.`orderitems`(`fk_order_id`, `fk_item_id`) VALUES (1, 3);
 INSERT INTO `ims`.`orderitems`(`fk_order_id`, `fk_item_id`) VALUES (1, 1);

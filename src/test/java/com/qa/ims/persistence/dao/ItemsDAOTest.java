@@ -52,8 +52,7 @@ public class ItemsDAOTest {
 	public void testRead() {
 		final long ID = 1L;
 		assertEquals(new Items(ID, "Valhalla", 476L, 19.62D),DAO.readItems(ID));
-	};
-	
+	}	
 	@Test
 	public void testUpdate() {
 		final Items updated = new Items(1L, "Dirt 5", 256L, 32.76D);
