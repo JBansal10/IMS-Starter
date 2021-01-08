@@ -1,15 +1,24 @@
-Coverage: 34%
-# Project Title
+Coverage: 83.7%
+# Inventory Management System (IMS)
 
-One Paragraph of project description goes here
+This following document contains the necessary code to work with the IMS program, included is a functioning customer, order and items entity. They each have their own DAO and controller as well as a main class each. This was coded in Java using Eclipse with testing done through Junit and Mockito. The build tool used was Maven. A local MYSQL server was used to connect this IMS to the database. 
+
+Through command line, this IMS program is used. This is used to create customers, items and orders. Customers require a first name and a last name, items require a name, amount of stock available and a price while the orders require a customer id and item id with the date being input automatically. 
 
 ## Getting Started
-
+Be sure to fork the repository and then download the code as a zip file or clone the code down to your machine. Extract the zip file and you should have a folder with all the files required available. Through eclipse, you will be able to import the folder by going to File, Import, Import existing Maven Project. This should provide access to the project in eclipse.
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+These are the required tools for eclipse, java, maven and MYSQL:
+Install Java 8 development kit from https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html 
+
+Install Maven from https://maven.apache.org/download.cgi
+
+Install Eclipse from https://www.eclipse.org/
+
+Install MySQL Workbench from https://www.mysql.com/products/workbench/
 
 ```
 Give examples
